@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <algorithm> // for std::transform
 
 // Define a struct to represent a point
 struct Point {

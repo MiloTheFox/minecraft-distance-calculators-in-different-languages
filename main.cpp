@@ -1,5 +1,6 @@
 /**
  * @author Sweet_Tooth11
+ * @license MIT
  * @version v1.0 Beta, 09/15/2023 - 08:12AM GMT+1
  */
 

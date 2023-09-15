@@ -38,7 +38,7 @@ int main() {
         std::cout << "Enter the distance calculation method (euclidean/manhattan): ";
         std::cin >> method;
 
-        // Convert both 'method' and expected method names to lowercase
+        // Convert both 'method' and expected method names to lowercase to prevent casing errors
         std::transform(method.begin(), method.end(), method.begin(), ::tolower);
 
         if (method == "euclidean") {

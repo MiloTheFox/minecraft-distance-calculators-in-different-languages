@@ -1,3 +1,9 @@
+/**
+ * @author Sweet_Tooth11
+ * @license MIT
+ * @version v1.0 Beta, 09/16/2023 - 08:27PM GMT+1
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

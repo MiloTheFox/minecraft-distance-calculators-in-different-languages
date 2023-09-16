@@ -41,10 +41,10 @@ func main() {
 	switch strings.ToLower(method) {
 	case "euclidean":
 		distance = euclideanDistance(point1, point2)
-		fmt.Fprintf(os.Stdout, "Euclidean Distance between Point 1 and Point 2: %.2f\n", distance)
+		fmt.Fprintf(os.Stdout, "Euclidean Distance between Point 1 and Point 2: %f\n", distance)
 	case "manhattan":
 		distance = manhattanDistance(point1, point2)
-		fmt.Fprintf(os.Stdout, "Manhattan Distance between Point 1 and Point 2: %.2f\n", distance)
+		fmt.Fprintf(os.Stdout, "Manhattan Distance between Point 1 and Point 2: %f\n", distance)
 	default:
 		fmt.Fprintf(os.Stderr, "Invalid method. Please enter 'euclidean' or 'manhattan'.")
 	}

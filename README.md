@@ -8,6 +8,6 @@ Minecraft Distance Calculator example implementations as a little celebration to
 
 Mostly it's because of boredom, but also because I wanna show what I can do with some of the most popular programming languages, including but not limited to:
 
-### C, C++, Go, Java, Javascript, Rust, Typescript and many more to follow
+### Javascript, Julia, Python, Typescript and many more languages will follow
 
 ## Each of these Implementations will soon have their little instruction on how to run these in the first place, so keep and eye out for it 😊

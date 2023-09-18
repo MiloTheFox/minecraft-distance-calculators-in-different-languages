@@ -32,7 +32,6 @@ void safeInput(char *buffer, size_t bufferSize)
 }
 
 // Function to validate a double input
-// Function to validate a double input
 int validateDoubleInput(const char *input)
 {
     if (input == NULL || *input == '\0')

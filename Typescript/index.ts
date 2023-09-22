@@ -111,9 +111,9 @@ async function main() {
       throw new Error('Invalid distance method. Please choose "Euclidean" or "Manhattan".');
     }
 
-    console.log(`Distance: ${distance.toFixed(2)}`);
+    console.log(`Distance: ${distance}`);
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
   } finally {
     rl.close();
   }

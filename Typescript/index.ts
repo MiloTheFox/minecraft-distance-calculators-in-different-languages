@@ -5,12 +5,18 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
+
+// Constants for the Limitations
+
 const MAX_X = 30000000;
 const MIN_X = -30000000;
 const MAX_Y = 319; // Maximum build height
 const MIN_Y = 0;
 const MAX_Z = 30000000;
 const MIN_Z = -30000000;
+
+// The function used to get the
+// Euclidean Distance
 
 function calculateEuclideanDistance(coords1: number[], coords2: number[]): number {
   const dx = coords1[0] - coords2[0];
@@ -19,6 +25,9 @@ function calculateEuclideanDistance(coords1: number[], coords2: number[]): numbe
   return Math.sqrt(dx * dx + dy * dy + dz * dz);
 }
 
+// The function used to get the
+// Manhattan Distance
+
 function calculateManhattanDistance(coords1: number[], coords2: number[]): number {
   const dx = Math.abs(coords1[0] - coords2[0]);
   const dy = Math.abs(coords1[1] - coords2[1]);
@@ -26,6 +35,7 @@ function calculateManhattanDistance(coords1: number[], coords2: number[]): numbe
   return dx + dy + dz;
 }
 
+// Prompt the User to pass the coordinates
 function promptCoordinates(promptText: string, minBounds: number[], maxBounds: number[]): Promise<number[]> {
   return new Promise((resolve, reject) => {
     rl.question(promptText, (input) => {
@@ -43,14 +53,23 @@ function promptCoordinates(promptText: string, minBounds: number[], maxBounds: n
   });
 }
 
+// Making sure that the coordinate
+// range is not higher or lower
+// than allowed
+
 function validateCoordinateRange(coord: number, min: number, max: number): boolean {
   return coord >= min && coord <= max;
 }
 
+
+// Making sure the Coordinates are
+// numbers
 function validateCoordinateInput(coord: number): boolean {
   return !isNaN(coord);
 }
 
+// Custom Function to validate the Coordinates
+// to make sure they're not exceeding the limitations
 function validateCoordinates(coordinates: number[], minBounds: number[], maxBounds: number[]): boolean {
   return (
     coordinates.length === 3 &&
@@ -62,8 +81,6 @@ function validateCoordinates(coordinates: number[], minBounds: number[], maxBoun
     validateCoordinateRange(coordinates[2], minBounds[2], maxBounds[2])
   );
 }
-
-// Rest of your code remains the same
 
 async function main() {
   try {

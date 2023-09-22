@@ -12,6 +12,20 @@ const MIN_Y = 0;
 const MAX_Z = 30000000;
 const MIN_Z = -30000000;
 
+function calculateEuclideanDistance(coords1: number[], coords2: number[]): number {
+  const dx = coords1[0] - coords2[0];
+  const dy = coords1[1] - coords2[1];
+  const dz = coords1[2] - coords2[2];
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+function calculateManhattanDistance(coords1: number[], coords2: number[]): number {
+  const dx = Math.abs(coords1[0] - coords2[0]);
+  const dy = Math.abs(coords1[1] - coords2[1]);
+  const dz = Math.abs(coords1[2] - coords2[2]);
+  return dx + dy + dz;
+}
+
 function promptCoordinates(promptText: string, minBounds: number[], maxBounds: number[]): Promise<number[]> {
   return new Promise((resolve, reject) => {
     rl.question(promptText, (input) => {

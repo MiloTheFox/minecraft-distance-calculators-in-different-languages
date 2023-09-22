@@ -11,7 +11,7 @@ const rl = readline.createInterface({
 const MAX_X = 30000000;
 const MIN_X = -30000000;
 const MAX_Y = 319; // Maximum build height
-const MIN_Y = 0;
+const MIN_Y = -319;
 const MAX_Z = 30000000;
 const MIN_Z = -30000000;
 

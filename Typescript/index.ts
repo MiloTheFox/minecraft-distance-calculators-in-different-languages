@@ -5,6 +5,9 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
+const MAX_COORD = 30000000;
+const MIN_COORD = -30000000;
+
 function promptCoordinates(promptText: string): Promise<number[]> {
   return new Promise((resolve, reject) => {
     rl.question(promptText, (input) => {
@@ -13,8 +16,8 @@ function promptCoordinates(promptText: string): Promise<number[]> {
         .split(' ')
         .map((coord) => parseFloat(coord.trim()));
 
-      if (coordinates.length !== 3 || coordinates.some(isNaN)) {
-        reject(new Error('Invalid input. Please enter three space-separated numbers.'));
+      if (!validateCoordinates(coordinates)) {
+        reject(new Error('Invalid input. Please enter three space-separated numbers within the limits.'));
       } else {
         resolve(coordinates);
       }
@@ -22,19 +25,22 @@ function promptCoordinates(promptText: string): Promise<number[]> {
   });
 }
 
-function calculateEuclideanDistance(coords1: number[], coords2: number[]): number {
-  const dx = coords1[0] - coords2[0];
-  const dy = coords1[1] - coords2[1];
-  const dz = coords1[2] - coords2[2];
-  return Math.round(Math.sqrt(dx * dx + dy * dy + dz * dz));
+function validateCoordinateRange(coord: number): boolean {
+  return coord >= MIN_COORD && coord <= MAX_COORD;
 }
 
-function calculateManhattanDistance(coords1: number[], coords2: number[]): number {
-  const dx = Math.abs(coords1[0] - coords2[0]);
-  const dy = Math.abs(coords1[1] - coords2[1]);
-  const dz = Math.abs(coords1[2] - coords2[2]);
-  return dx + dy + dz;
+function validateCoordinateInput(coord: number): boolean {
+  return !isNaN(coord);
 }
+
+function validateCoordinates(coordinates: number[]): boolean {
+  return (
+    coordinates.length === 3 &&
+    coordinates.every((coord) => validateCoordinateInput(coord) && validateCoordinateRange(coord))
+  );
+}
+
+// Rest of your code remains the same
 
 async function main() {
   try {

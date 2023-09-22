@@ -40,8 +40,6 @@ function validateCoordinates(coordinates: number[]): boolean {
   );
 }
 
-// Rest of your code remains the same
-
 async function main() {
   try {
     const coords1 = await promptCoordinates('Enter the first set of coordinates (x1 y1 z1): ');

@@ -1,15 +1,14 @@
 {
   "name": "nodejs-typescript",
   "version": "1.0.0",
-  "author", "Tooth-Fox11",
+  "author": "Tooth-Fox11",
   "description": "",
   "main": "index.ts",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "readline": "^1.3.0"
   },

@@ -4,6 +4,7 @@
  * @version v1.0 Beta, 09/16/2023 - 08:27PM GMT+1
  */
 
+// Import the necessary Libraries
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,7 +26,7 @@ void safeInput(char *buffer, size_t bufferSize)
         exit(EXIT_FAILURE);
     }
 
-    // Remove the trailing newline character, if present
+    // Remove the trailing newline character, if present (to prevent buffer overflows)
     size_t len = strlen(buffer);
     if (len > 0 && buffer[len - 1] == '\n')
         buffer[len - 1] = '\0';
@@ -71,8 +72,10 @@ int main()
     printf("Enter coordinates for Point 1 in the format 'x y z': ");
     safeInput(inputBuffer, sizeof(inputBuffer));
 
+    // Checking the input if it has 3 valid numbers or not
     while (sscanf(inputBuffer, "%lf %lf %lf", &point1.x, &point1.y, &point1.z) != 3 || !validateDoubleInput(inputBuffer))
     {
+        // If there are no 3 valid numbers, the program will reprompt the user for 
         fprintf(stderr, "Invalid input. Please enter three valid numbers only.\n");
         printf("Enter coordinates for Point 1 in the format 'x y z': ");
         safeInput(inputBuffer, sizeof(inputBuffer));
@@ -82,6 +85,7 @@ int main()
     printf("Enter coordinates for Point 2 in the format 'x y z': ");
     safeInput(inputBuffer, sizeof(inputBuffer));
 
+    // Same logic for line 76 and 78
     while (sscanf(inputBuffer, "%lf %lf %lf", &point2.x, &point2.y, &point2.z) != 3 || !validateDoubleInput(inputBuffer))
     {
         fprintf(stderr, "Invalid input. Please enter three valid numbers only.\n");

@@ -22,7 +22,7 @@ function calculateEuclideanDistance(coords1: number[], coords2: number[]): numbe
   const dx = coords1[0] - coords2[0];
   const dy = coords1[1] - coords2[1];
   const dz = coords1[2] - coords2[2];
-  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+  return Math.round(Math.sqrt(dx * dx + dy * dy + dz * dz));
 }
 
 // The function used to get the

@@ -5,10 +5,14 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-const MAX_COORD = 30000000;
-const MIN_COORD = -30000000;
+const MAX_X = 30000000;
+const MIN_X = -30000000;
+const MAX_Y = 319; // Maximum build height
+const MIN_Y = 0;
+const MAX_Z = 30000000;
+const MIN_Z = -30000000;
 
-function promptCoordinates(promptText: string): Promise<number[]> {
+function promptCoordinates(promptText: string, minBounds: number[], maxBounds: number[]): Promise<number[]> {
   return new Promise((resolve, reject) => {
     rl.question(promptText, (input) => {
       const coordinates = input
@@ -16,8 +20,8 @@ function promptCoordinates(promptText: string): Promise<number[]> {
         .split(' ')
         .map((coord) => parseFloat(coord.trim()));
 
-      if (!validateCoordinates(coordinates)) {
-        reject(new Error('Invalid input. Please enter three space-separated numbers within the limits.'));
+      if (!validateCoordinates(coordinates, minBounds, maxBounds)) {
+        reject(new Error(`Invalid input. Please enter three space-separated numbers within the limits: X (${minBounds[0]} - ${maxBounds[0]}), Y (${minBounds[1]} - ${maxBounds[1]}), Z (${minBounds[2]} - ${maxBounds[2]})`));
       } else {
         resolve(coordinates);
       }
@@ -25,25 +29,40 @@ function promptCoordinates(promptText: string): Promise<number[]> {
   });
 }
 
-function validateCoordinateRange(coord: number): boolean {
-  return coord >= MIN_COORD && coord <= MAX_COORD;
+function validateCoordinateRange(coord: number, min: number, max: number): boolean {
+  return coord >= min && coord <= max;
 }
 
 function validateCoordinateInput(coord: number): boolean {
   return !isNaN(coord);
 }
 
-function validateCoordinates(coordinates: number[]): boolean {
+function validateCoordinates(coordinates: number[], minBounds: number[], maxBounds: number[]): boolean {
   return (
     coordinates.length === 3 &&
-    coordinates.every((coord) => validateCoordinateInput(coord) && validateCoordinateRange(coord))
+    validateCoordinateInput(coordinates[0]) &&
+    validateCoordinateInput(coordinates[1]) &&
+    validateCoordinateInput(coordinates[2]) &&
+    validateCoordinateRange(coordinates[0], minBounds[0], maxBounds[0]) &&
+    validateCoordinateRange(coordinates[1], minBounds[1], maxBounds[1]) &&
+    validateCoordinateRange(coordinates[2], minBounds[2], maxBounds[2])
   );
 }
 
+// Rest of your code remains the same
+
 async function main() {
   try {
-    const coords1 = await promptCoordinates('Enter the first set of coordinates (x1 y1 z1): ');
-    const coords2 = await promptCoordinates('Enter the second set of coordinates (x2 y2 z2): ');
+    const coords1 = await promptCoordinates(
+      `Enter the first set of coordinates (X ${MIN_X} - ${MAX_X}, Y ${MIN_Y} - ${MAX_Y}, Z ${MIN_Z} - ${MAX_Z}): `,
+      [MIN_X, MIN_Y, MIN_Z],
+      [MAX_X, MAX_Y, MAX_Z]
+    );
+    const coords2 = await promptCoordinates(
+      `Enter the second set of coordinates (X ${MIN_X} - ${MAX_X}, Y ${MIN_Y} - ${MAX_Y}, Z ${MIN_Z} - ${MAX_Z}): `,
+      [MIN_X, MIN_Y, MIN_Z],
+      [MAX_X, MAX_Y, MAX_Z]
+    );
 
     const distanceMethod = await new Promise<string>((resolve) => {
       rl.question('Choose the distance method (Euclidean or Manhattan): ', (method) => {

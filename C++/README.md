@@ -3,7 +3,7 @@
 Well I'm glad you asked. To run this code, you have to follow these steps:
 
 ### 1. Download a C++ compiler
-Make sure you have a C++ compiler installed on your system. Common compilers include [GCC (GNU Compiler Collection)](https://gcc.gnu.org/) for Linux, [MinGW](https://www.mingw-w64.org/downloads/) for Windows, or [Xcode Command Line Tools](https://developer.apple.com/xcode/resources/) for macOS.
+Make sure you have a C++ compiler installed on your system. Common compilers include [MinGW](https://www.mingw-w64.org/downloads/) for Windows, or [Xcode Command Line Tools](https://developer.apple.com/xcode/resources/) for macOS.
 
 ### 2. Open a Text Editor
 Use a text editor of your choice (e.g., [Visual Studio Code](https://code.visualstudio.com/), [Sublime Text](https://www.sublimetext.com/), [Notepad++](https://notepad-plus-plus.org/), [Vim](https://www.vim.org), or anything you prefer) to create a new text file.

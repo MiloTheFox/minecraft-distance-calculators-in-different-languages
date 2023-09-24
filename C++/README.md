@@ -1,43 +1,94 @@
-### How to run this?
+## Table of Contents
 
-Well I'm glad you asked. To run this code, you have to follow these steps:
+- [Introduction](#introduction)
+- [Features](#features)
+- [Usage](#usage)
+- [Installation](#installation)
+- [License](#license)
+- [Author](#author)
 
-### 1. Download a C++ compiler
-Make sure you have a C++ compiler installed on your system. Common compilers include [MinGW](https://www.mingw-w64.org/downloads/) for Windows, or [Xcode Command Line Tools](https://developer.apple.com/xcode/resources/) for macOS.
+## Introduction
 
-### 2. Open a Text Editor
-Use a text editor of your choice (e.g., [Visual Studio Code](https://code.visualstudio.com/), [Sublime Text](https://www.sublimetext.com/), [Notepad++](https://notepad-plus-plus.org/), [Vim](https://www.vim.org), or anything you prefer) to create a new text file.
+This C++ program calculates the distance between two points in 3D space. It provides two distance metrics: Euclidean and Manhattan. You can choose the method for calculating the distance and enter the coordinates of the two points to get the result.
 
-### 3. Copy and Paste the Code
-Copy the C++ code found in [here](https://github.com/Tooth-Fox11/minecraft-distance-calculators-in-different-languages/blob/main/C%2B%2B/main.cpp) and paste it into the text file.
+## Features
 
-### 4. Save the File
-Save the file with a ".cpp" extension. You can choose any name for the file, but make sure it has the ".cpp" extension. For example, you can name it "distance_calculator.cpp."
+- Calculates Euclidean and Manhattan distances between two 3D points.
+- User-friendly command-line interface.
+- Input validation to ensure valid numeric input.
+- Error handling for invalid inputs or methods.
 
-### 5. Compile the Code
-Now here comes the fun part. 
-Open your system's command prompt or terminal, navigate to the directory where you saved the ".cpp" file, and compile the code using the C++ compiler.
-The exact compilation command depends on your compiler, but a common command for GCC is:
+## Usage
 
+1. Clone the repository to your local machine:
+
+    ```shell
+    git clone https://github.com/your-username/point-distance-calculator.git
+    ```
+
+2. Compile the C++ code using a C++ compiler:
+
+    ```shell
+    g++ point_distance_calculator.cpp -o point_distance_calculator
+    ```
+
+3. Run the program:
+
+    ```shell
+    ./point_distance_calculator
+    ```
+
+4. Follow the on-screen prompts to enter the coordinates for Point 1, Point 2, and choose the distance calculation method (euclidean or manhattan).
+
+5. The program will calculate and display the distance between the two points using the selected method.
+
+I apologize for the oversight. It appears there is a special installation step required for this program. Specifically, you need to have a C++ compiler installed on your system to compile and run the program. Here's an updated installation section:
+
+## Installation
+
+To run this program, you need a C++ compiler installed on your system. If you don't already have one, you can typically install it on MacOS using the following command:
+
+```shell
+brew install gcc
 ```
-bash
-g++ -o distance_calculator distance_calculator.cpp
-```
 
-This command tells the compiler to create an executable file named "distance_calculator" from the source code in "distance_calculator.cpp."
+On Windows, you can use [MinGW](https://www.mingw-w64.org/downloads/) or install a C++ development environment like [Code::Blocks](https://www.codeblocks.org/downloads/) or [Visual Studio](https://visualstudio.microsoft.com/de/).
 
-### 6. Run the Program:
-After successful compilation, you can run the program on the console by entering:
-```bash
-./distance_calculator
-```
+Once you have a C++ compiler installed, follow these steps:
 
-### 7. Follow On-Screen Instructions:
+1. Clone the repository to your local machine:
 
-The program will prompt you to enter coordinates for two points in the format 'x y z'.
-It will then ask you to choose the distance calculation method by typing 'euclidean' or 'manhattan'.
-After you provide valid input, the program will calculate and display the chosen distance between the two points.
-Review the Output: The program will display the calculated distance, and you'll see the output on the screen.
+    ```shell
+    git clone https://github.com/Tooth-Fox11/minecraft-distance-calculators-in-different-languages.git
+    ```
 
-### 8. Exit the Program:
-After reviewing the output, you can exit the program by closing the terminal or command prompt.
+2. Navigate to the project directory:
+
+    ```shell
+    cd minecraft-distance-calculators-in-different-languages/C++
+    ```
+
+3. Compile the C++ code using your C++ compiler:
+
+    ```shell
+    g++ main.cpp -o main
+    ```
+
+4. Run the program:
+
+    ```shell
+    ./main
+    ```
+
+Please ensure that you have a C++ compiler installed and configured on your system before proceeding with the installation and usage of this program.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Tooth-Fox11/minecraft-distance-calculators-in-different-languages/blob/main/LICENSE) file for details.
+
+## Author
+
+- **Tooth-Fox11**
+- GitHub: [Tooth-Fox11](https://github.com/Tooth-Fox11)
+
+Enjoy calculating distances between points in 3D space!

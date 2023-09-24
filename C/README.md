@@ -38,13 +38,13 @@ Make sure you have a C compiler installed on your system. You can use GCC (GNU C
    - Using GCC:
 
      ```bash
-     gcc -o point_distance_calculator point_distance_calculator.c
+     gcc -o main main.c
      ```
 
    - Using MinGW on Windows:
 
      ```bash
-     gcc -o point_distance_calculator.exe point_distance_calculator.c
+     gcc -o main.exe main.c
      ```
 
 ## Usage
@@ -52,8 +52,8 @@ Make sure you have a C compiler installed on your system. You can use GCC (GNU C
 Run the program by executing the compiled binary:
 
 ```bash
-./point_distance_calculator   # On Unix-based systems
-point_distance_calculator.exe # On Windows
+./main   # On Unix-based systems
+main.exe # On Windows
 ```
 
 ## Method Selection

@@ -20,32 +20,6 @@ This C++ program calculates the distance between two points in 3D space. It prov
 
 ## Usage
 
-1. Clone the repository to your local machine:
-
-    ```shell
-    git clone https://github.com/your-username/point-distance-calculator.git
-    ```
-
-2. Compile the C++ code using a C++ compiler:
-
-    ```shell
-    g++ point_distance_calculator.cpp -o point_distance_calculator
-    ```
-
-3. Run the program:
-
-    ```shell
-    ./point_distance_calculator
-    ```
-
-4. Follow the on-screen prompts to enter the coordinates for Point 1, Point 2, and choose the distance calculation method (euclidean or manhattan).
-
-5. The program will calculate and display the distance between the two points using the selected method.
-
-I apologize for the oversight. It appears there is a special installation step required for this program. Specifically, you need to have a C++ compiler installed on your system to compile and run the program. Here's an updated installation section:
-
-## Installation
-
 To run this program, you need a C++ compiler installed on your system. If you don't already have one, you can typically install it on MacOS using the following command:
 
 ```shell

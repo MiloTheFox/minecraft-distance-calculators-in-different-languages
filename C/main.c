@@ -1,7 +1,7 @@
 /**
  * @author Tooth_Fox11
  * @license MIT
- * @version v1.0 Beta, 09/16/2023 - 08:27PM GMT+1
+ * @version v1.0 Beta, 09/26/2023 - 09:58PM GMT+1
  */
 
 // Import the necessary Libraries

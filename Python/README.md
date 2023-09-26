@@ -39,7 +39,7 @@ Once you have Python installed, follow these steps:
 3. Run the program:
 
     ```shell
-    python distance_calculator.py
+    python main.py
     ```
 
 Please ensure that you have Python installed and configured on your system before proceeding with the installation and usage of this program.

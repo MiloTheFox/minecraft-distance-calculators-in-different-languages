@@ -1,7 +1,7 @@
 /**
  * @author Tooth-Fox11
  * @license MIT
- * @version v1.0 Beta, 09/15/2023 - 08:12AM GMT+1
+ * @version v1.0 Beta, 09/26/2023 - 09:57AM GMT+1
  */
 
 #include <iostream>

@@ -75,7 +75,7 @@ int main()
     // Checking the input if it has 3 valid numbers or not
     while (sscanf(inputBuffer, "%lf %lf %lf", &point1.x, &point1.y, &point1.z) != 3 || !validateDoubleInput(inputBuffer))
     {
-        // If there are no 3 valid numbers, the program will reprompt the user for 
+        // If there are no 3 valid numbers, the program will reprompt the user 
         fprintf(stderr, "Invalid input. Please enter three valid numbers only.\n");
         printf("Enter coordinates for Point 1 in the format 'x y z': ");
         safeInput(inputBuffer, sizeof(inputBuffer));

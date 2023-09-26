@@ -7,82 +7,91 @@
 #include <iostream>
 #include <cmath>
 #include <string>
-#include <algorithm> // for std::transform
+#include <cctype>
 
-// Define a struct to represent a point
-struct Point
-{
+struct Point {
     double x, y, z;
 };
 
-// Function to calculate Euclidean distance
-double calculateEuclideanDistance(const Point &p1, const Point &p2)
-{
-    return std::sqrt(std::pow(p2.x - p1.x, 2) + std::pow(p2.y - p1.y, 2) + std::pow(p2.z - p1.z, 2));
+void safeInput(std::string &input) {
+    std::getline(std::cin, input);
 }
 
-// Function to calculate Manhattan distance
-double calculateManhattanDistance(const Point &p1, const Point &p2)
-{
-    return std::abs(p2.x - p1.x) + std::abs(p2.y - p1.y) + std::abs(p2.z - p1.z);
+bool validateDoubleInput(const std::string &input) {
+    if (input.empty()) {
+        return false;
+    }
+
+    int count = 0;
+    size_t pos = 0;
+    while (pos < input.length()) {
+        try {
+            std::stod(input.substr(pos), &pos);
+            count++;
+        } catch (...) {
+            return false;
+        }
+    }
+
+    return (count == 3);
 }
 
-double calculateDistance(const Point &p1, const Point &p2, const std::string &method)
-{
-    if (method == "euclidean")
-    {
-        return calculateEuclideanDistance(p1, p2);
-    }
-    else if (method == "manhattan")
-    {
-        return calculateManhattanDistance(p1, p2);
-    }
-    else
-    {
-        throw std::invalid_argument("Invalid method. Please enter 'euclidean' or 'manhattan'.");
-    }
-}
-
-int main()
-{
+int main() {
     Point point1, point2;
+    std::string input;
     std::string method;
 
-    try
-    {
+    // Input for Point 1
+    std::cout << "Enter coordinates for Point 1 in the format 'x y z': ";
+    safeInput(input);
+
+    while (!validateDoubleInput(input)) {
+        std::cerr << "Invalid input. Please enter three valid numbers only." << std::endl;
         std::cout << "Enter coordinates for Point 1 in the format 'x y z': ";
-        if (!(std::cin >> point1.x >> point1.y >> point1.z))
-        {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            throw std::invalid_argument("Invalid input. Please enter three numbers only.");
-        }
+        safeInput(input);
+    }
 
+    sscanf(input.c_str(), "%lf %lf %lf", &point1.x, &point1.y, &point1.z);
+
+    // Input for Point 2
+    std::cout << "Enter coordinates for Point 2 in the format 'x y z': ";
+    safeInput(input);
+
+    while (!validateDoubleInput(input)) {
+        std::cerr << "Invalid input. Please enter three valid numbers only." << std::endl;
         std::cout << "Enter coordinates for Point 2 in the format 'x y z': ";
-        if (!(std::cin >> point2.x >> point2.y >> point2.z))
-        {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            throw std::invalid_argument("Invalid input. Please enter three numbers only.");
+        safeInput(input);
+    }
+
+    sscanf(input.c_str(), "%lf %lf %lf", &point2.x, &point2.y, &point2.z);
+
+    // Input for Method
+    std::cout << "Enter the distance calculation method (euclidean or manhattan): ";
+    safeInput(method);
+
+    for (char &c : method) {
+        c = std::tolower(c);
+    }
+
+    while (method != "euclidean" && method != "manhattan") {
+        std::cerr << "Invalid method. Please enter 'euclidean' or 'manhattan'." << std::endl;
+        std::cout << "Enter the distance calculation method (euclidean or manhattan): ";
+        safeInput(method);
+
+        for (char &c : method) {
+            c = std::tolower(c);
         }
-
-        std::cout << "Enter the distance calculation method (euclidean/manhattan): ";
-        std::cin >> method;
-
-        // Convert both 'method' and expected method names to lowercase to prevent input errors
-        std::transform(method.begin(), method.end(), method.begin(), ::tolower);
-
-        double distance = calculateDistance(point1, point2, method);
-        std::cout << "The " << method << " distance between the two points is: " << distance << std::endl;
     }
-    catch (const std::invalid_argument &e)
-    {
-        std::cerr << "Caught exception: " << e.what() << std::endl;
+
+    // Calculate and print the distance
+    double distance;
+    if (method == "euclidean") {
+        distance = std::sqrt(std::pow(point2.x - point1.x, 2) + std::pow(point2.y - point1.y, 2) + std::pow(point2.z - point1.z, 2));
+    } else if (method == "manhattan") {
+        distance = std::fabs(point2.x - point1.x) + std::fabs(point2.y - point1.y) + std::fabs(point2.z - point1.z);
     }
-    catch (...)
-    {
-        std::cerr << "Caught unknown exception" << std::endl;
-    }
+
+    std::cout << "The " << method << " distance between the two points is: " << distance << std::endl;
 
     return 0;
 }

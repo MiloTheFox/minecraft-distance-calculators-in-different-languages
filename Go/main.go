@@ -7,61 +7,50 @@ import (
 	"strings"
 )
 
-// Point represents a 3D point in Minecraft coordinates.
 type Point struct {
 	X, Y, Z float64
 }
 
+type DistanceFunc func(p1, p2 Point) float64
+
+var distanceFuncs = map[string]DistanceFunc{
+	"euclidean": euclideanDistance,
+	"manhattan": manhattanDistance,
+}
+
 func main() {
-	// Get the coordinates of Point 1
-	point1, err := getPoint("Enter the coordinates of Point 1 (X Y Z):")
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		}
+	}()
 
-	// Get the coordinates of Point 2
-	point2, err := getPoint("Enter the coordinates of Point 2 (X Y Z):")
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
+	point1 := getPoint("Enter the coordinates of Point 1 (X Y Z):")
+	point2 := getPoint("Enter the coordinates of Point 2 (X Y Z):")
 
-	// Prompt the user to select the distance calculation method
 	fmt.Print("Enter the distance calculation method (euclidean or manhattan): ")
 	var method string
-	_, err = fmt.Scan(&method)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Invalid input. Please enter 'euclidean' or 'manhattan'.")
-		return
+	fmt.Scan(&method)
+
+	distanceFunc, ok := distanceFuncs[strings.ToLower(method)]
+	if !ok {
+		panic("Invalid method. Please enter 'euclidean' or 'manhattan'.")
 	}
 
-	var distance float64
-
-	switch strings.ToLower(method) {
-	case "euclidean":
-		distance = euclideanDistance(point1, point2)
-		fmt.Fprintf(os.Stdout, "Euclidean Distance between Point 1 and Point 2: %f\n", distance)
-	case "manhattan":
-		distance = manhattanDistance(point1, point2)
-		fmt.Fprintf(os.Stdout, "Manhattan Distance between Point 1 and Point 2: %f\n", distance)
-	default:
-		fmt.Fprintf(os.Stderr, "Invalid method. Please enter 'euclidean' or 'manhattan'.")
-	}
+	distance := distanceFunc(point1, point2)
+	fmt.Printf("Distance between Point 1 and Point 2: %f\n", distance)
 }
 
-// getPoint reads coordinates from the user and returns an error on failure.
-func getPoint(prompt string) (Point, error) {
+func getPoint(prompt string) Point {
 	var x, y, z float64
 	fmt.Print(prompt + " ")
-	_, err := fmt.Scan(&x, &y, &z)
-	if err != nil {
-		return Point{}, fmt.Errorf("invalid input: %v", err)
+	n, err := fmt.Scan(&x, &y, &z)
+	if err != nil || n != 3 {
+		panic(fmt.Sprintf("invalid input: %v", err))
 	}
-	return Point{x, y, z}, nil
+	return Point{x, y, z}
 }
 
-// euclideanDistance calculates the Euclidean distance between two points.
 func euclideanDistance(p1, p2 Point) float64 {
 	dx := p2.X - p1.X
 	dy := p2.Y - p1.Y
@@ -69,7 +58,6 @@ func euclideanDistance(p1, p2 Point) float64 {
 	return math.Round(math.Sqrt(dx*dx + dy*dy + dz*dz))
 }
 
-// manhattanDistance calculates the Manhattan distance between two points.
 func manhattanDistance(p1, p2 Point) float64 {
 	dx := math.Abs(p2.X - p1.X)
 	dy := math.Abs(p2.Y - p1.Y)

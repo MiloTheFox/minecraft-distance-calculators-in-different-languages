@@ -4,8 +4,6 @@
  * @version v1.0, 09/30/2023 - 01:31AM GMT+1
  */
 
-// UNTESTED CODE
-
 // Import the necessary Libraries
 #include <stdio.h>
 #include <stdlib.h>

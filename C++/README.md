@@ -33,7 +33,7 @@ Once you have a C++ compiler installed, follow these steps:
 1. Clone the repository to your local machine:
 
     ```shell
-    git clone https://github.com/Tooth-Fox11/minecraft-distance-calculators-in-different-languages.git
+    git clone https://github.com/LunaTheFox20/minecraft-distance-calculators-in-different-languages.git
     ```
 
 2. Navigate to the project directory:
@@ -58,11 +58,11 @@ Please ensure that you have a C++ compiler installed and configured on your syst
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/Tooth-Fox11/minecraft-distance-calculators-in-different-languages/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/LunaTheFox20/minecraft-distance-calculators-in-different-languages/blob/main/LICENSE) file for details.
 
 ## Author
 
-- **Tooth-Fox11**
-- GitHub: [Tooth-Fox11](https://github.com/Tooth-Fox11)
+- **LunaTheFox20**
+- GitHub: [Tooth-Fox11](https://github.com/LunaTheFox20)
 
 Enjoy calculating distances between points in 3D space!

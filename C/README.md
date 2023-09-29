@@ -24,7 +24,7 @@ Make sure you have a C compiler installed on your system. You can use GCC (GNU C
 1. Clone the repository or download the C code.
 
    ```bash
-   git clone https://github.com/Tooth-Fox11/minecraft-distance-calculators-in-different-languages.git
+   git clone https://github.com/LunaTheFox20/minecraft-distance-calculators-in-different-languages.git
    ```
 
 2. Navigate to the project directory.
@@ -60,8 +60,8 @@ main.exe # On Windows
 
 You can choose one of two distance calculation methods:
 
-- **Euclidean**: Calculates the [Euclidean distance](https://github.com/Tooth-Fox11/minecraft-distance-calculator#euclidean) between two points in 3D space.
-- **Manhattan**: Calculates the [Manhattan distance](https://github.com/Tooth-Fox11/minecraft-distance-calculator#manhattan) between two points in 3D space.
+- **Euclidean**: Calculates the [Euclidean distance](https://github.com/LunaTheFox20/minecraft-distance-calculator#euclidean) between two points in 3D space.
+- **Manhattan**: Calculates the [Manhattan distance](https://github.com/LunaTheFox20/minecraft-distance-calculator#manhattan) between two points in 3D space.
 
 ## Examples
 
@@ -85,10 +85,10 @@ You can choose one of two distance calculation methods:
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](https://github.com/Tooth-Fox11/minecraft-distance-calculators-in-different-languages/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/LunaTheFox20/minecraft-distance-calculators-in-different-languages/blob/main/LICENSE) file for details.
 
 ## Author
 
-- **Tooth-Fox11** - [GitHub Profile](https://github.com/Tooth-Fox11)
+- **Tooth-Fox11** - [GitHub Profile](https://github.com/LunaTheFox20)
 
 Feel free to contribute to the project or report issues if you encounter any problems. Enjoy calculating distances!

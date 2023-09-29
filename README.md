@@ -1,4 +1,4 @@
-Minecraft Distance Calculator example implementations as a little celebration to my [Original Distance Calculator written in Java](https://github.com/Sweet-Tooth11/minecraft-distance-calculator)
+Minecraft Distance Calculator example implementations as a little celebration to my [Original Distance Calculator written in Java](https://github.com/LunaTheFox20/minecraft-distance-calculator)
 
 ### Expect more implementations to come soon
 

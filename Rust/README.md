@@ -27,7 +27,7 @@ Once you have Rust and Cargo installed, follow these steps:
 1. Clone the repository to your local machine:
 
     ```shell
-    git clone https://github.com/Tooth-Fox11/minecraft-distance-calculators-in-different-languages.git
+    git clone https://github.com/LunaTheFox20/minecraft-distance-calculators-in-different-languages.git
     ```
 
 2. Navigate to the project directory:
@@ -48,11 +48,11 @@ Please ensure that you have Rust and Cargo properly configured on your system be
 
 ## License
 
-This project is licensed under the MIT License. For more details, check the [LICENSE](https://github.com/Tooth-Fox11/minecraft-distance-calculators-in-different-languages/blob/main/LICENSE) file.
+This project is licensed under the MIT License. For more details, check the [LICENSE](https://github.com/LunaTheFox20/minecraft-distance-calculators-in-different-languages/blob/main/LICENSE) file.
 
 ## Author
 
-- **Tooth-Fox11**
-- GitHub: [Tooth-Fox11](https://github.com/Tooth-Fox11)
+- **LunaTheFox20**
+- GitHub: [Tooth-Fox11](https://github.com/LunaTheFox20)
 
 Enjoy calculating distances between points in 3D space!

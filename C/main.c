@@ -1,7 +1,7 @@
 /**
  * @author LunaTheFox20
  * @license MIT
- * @version v1.0 Beta, 09/30/2023 - 01:31AM GMT+1
+ * @version v1.0, 09/30/2023 - 01:31AM GMT+1
  */
 
 // UNTESTED CODE

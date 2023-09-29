@@ -1,7 +1,7 @@
 /**
- * @author Tooth-Fox11
+ * @author LunaTheFox20
  * @license MIT
- * @version v1.0 Beta, 09/26/2023 - 09:57AM GMT+1
+ * @version v1.0 Beta, 09/30/2023 - 01:28AM GMT+1
  */
 
 // UNTESTED CODE

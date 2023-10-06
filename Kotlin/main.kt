@@ -1,7 +1,4 @@
-import kotlin.math.abs
-import kotlin.math.pow
-import kotlin.math.sqrt
-import kotlin.math.round
+import kotlin.math.*
 
 // Constants for distance methods
 enum class DistanceMethod {
@@ -35,17 +32,13 @@ fun main() {
 data class Point(val x: Double, val y: Double, val z: Double)
 
 fun readValidPoint(): Point {
-    while (true) {
-        println("Please enter 3 coordinates separated by spaces (e.g., 1.0 2.0 3.0):")
-        val input = readLine() ?: ""
-        val coordinates = input.split(" ").mapNotNull { it.toDoubleOrNull() }
+    println("Please enter 3 coordinates separated by spaces (e.g., 1.0 2.0 3.0):")
+    val input = readLine() ?: ""
+    val coordinates = input.split(" ").mapNotNull { it.toDoubleOrNull() }
 
-        if (coordinates.size == 3) {
-            return Point(coordinates[0], coordinates[1], coordinates[2])
-        }
+    require(coordinates.size == 3) { "Invalid input. Please enter only 3 coordinates and make sure they're numbers!" }
 
-        println("Invalid input.")
-    }
+    return Point(coordinates[0], coordinates[1], coordinates[2])
 }
 
 // Function to calculate distance based on the selected method
@@ -56,10 +49,10 @@ fun calculateDistance(point1: Point, point2: Point, method: DistanceMethod): Dou
     }
 }
 
-inline fun calculateEuclideanDistance(point1: Point, point2: Point): Double {
-    return round(sqrt((point1.x - point2.x).pow(2) + (point1.y - point2.y).pow(2) + (point1.z - point2.z).pow(2)))
+fun calculateEuclideanDistance(point1: Point, point2: Point): Double {
+    return sqrt((point1.x - point2.x).pow(2) + (point1.y - point2.y).pow(2) + (point1.z - point2.z).pow(2))
 }
 
-inline fun calculateManhattanDistance(point1: Point, point2: Point): Double {
+fun calculateManhattanDistance(point1: Point, point2: Point): Double {
     return abs(point1.x - point2.x) + abs(point1.y - point2.y) + abs(point1.z - point2.z)
 }

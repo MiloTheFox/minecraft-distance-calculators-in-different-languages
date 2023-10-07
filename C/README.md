@@ -91,6 +91,5 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
 
 - **LunaTheFox20**
 - GitHub: [LunaTheFox20](https://github.com/LunaTheFox20)
-- Codeberg: [LunaTheFox2023](https://codeberg.org/LunaTheFox2023)
 
 Feel free to contribute to the project or report issues if you encounter any problems. Enjoy calculating distances!

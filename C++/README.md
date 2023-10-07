@@ -45,7 +45,7 @@ Once you have a C++ compiler installed, follow these steps:
 3. Compile the C++ code using your C++ compiler:
 
     ```shell
-    g++ main.cpp -o main
+    g++ -O3 main.cpp -o main
     ```
 
 4. Run the program:

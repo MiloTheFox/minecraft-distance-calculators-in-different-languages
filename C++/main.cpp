@@ -1,96 +1,99 @@
 /**
  * @author LunaTheFox20
  * @license MIT
- * @version v1.0 Beta, 09/30/2023 - 01:28AM GMT+1
+ * @version v1.0 Beta, 10/07/2023 - 01:08PM GMT+1
  */
 
 #include <iostream>
 #include <cmath>
 #include <string>
 #include <cctype>
-#include <sstream> // Include for std::istringstream
+#include <sstream>
 
 struct Point
 {
     double x, y, z;
 };
 
-bool validateDoubleInput(const std::string &input)
+bool validateDoubleInput(const std::string &input, Point &point)
 {
     std::istringstream iss(input);
-    double val;
-    int count = 0;
+    return (iss >> point.x >> point.y >> point.z) && iss.eof();
+}
 
-    while (iss >> val)
+
+std::string toLower(const std::string &str)
+{
+    std::string lowerStr = str;
+    for (char &c : lowerStr)
     {
-        count++;
+        c = std::tolower(c);
+    }
+    return lowerStr;
+}
+
+Point readPoint(const std::string &prompt)
+{
+    Point point;
+    std::string input;
+
+    std::cout << prompt;
+    while (true)
+    {
+        std::getline(std::cin, input);
+        if (validateDoubleInput(input, point))
+            break;
+        std::cerr << "Invalid input. Please enter three valid numbers only." << std::endl;
+        std::cout << prompt;
     }
 
-    return (count == 3 && iss.eof());
+    return point;
+}
+
+
+std::string readMethod()
+{
+    std::string method;
+
+    while (true)
+    {
+        std::cout << "Enter the distance calculation method (euclidean or manhattan): ";
+        std::cin >> method;
+        method = toLower(method);
+
+        if (method == "euclidean" || method == "manhattan")
+        {
+            return method;
+        }
+
+        std::cerr << "Invalid method. Please enter 'euclidean' or 'manhattan'." << std::endl;
+    }
+}
+
+double calculateEuclideanDistance(const Point &p1, const Point &p2)
+{
+    return std::round(std::sqrt(std::pow(p2.x - p1.x, 2) + std::pow(p2.y - p1.y, 2) + std::pow(p2.z - p1.z, 2)));
+}
+
+double calculateManhattanDistance(const Point &p1, const Point &p2)
+{
+    return std::fabs(p2.x - p1.x) + std::fabs(p2.y - p1.y) + std::fabs(p2.z - p1.z);
 }
 
 int main()
 {
-    Point point1, point2;
-    std::string input;
-    std::string method;
+    Point point1 = readPoint("Enter coordinates for Point 1 in the format 'x y z': ");
+    Point point2 = readPoint("Enter coordinates for Point 2 in the format 'x y z': ");
+    std::string method = readMethod();
 
-    // Input for Point 1
-    std::cout << "Enter coordinates for Point 1 in the format 'x y z': ";
-    std::getline(std::cin, input);
-
-    while (!validateDoubleInput(input))
-    {
-        std::cerr << "Invalid input. Please enter three valid numbers only." << std::endl;
-        std::cout << "Enter coordinates for Point 1 in the format 'x y z': ";
-        std::getline(std::cin, input);
-    }
-
-    sscanf(input.c_str(), "%lf %lf %lf", &point1.x, &point1.y, &point1.z);
-
-    // Input for Point 2
-    std::cout << "Enter coordinates for Point 2 in the format 'x y z': ";
-    std::getline(std::cin, input);
-
-    while (!validateDoubleInput(input))
-    {
-        std::cerr << "Invalid input. Please enter three valid numbers only." << std::endl;
-        std::cout << "Enter coordinates for Point 2 in the format 'x y z': ";
-        std::getline(std::cin, input);
-    }
-
-    sscanf(input.c_str(), "%lf %lf %lf", &point2.x, &point2.y, &point2.z);
-
-    // Input for Method
-    std::cout << "Enter the distance calculation method (euclidean or manhattan): ";
-    std::cin >> method;
-
-    for (char &c : method)
-    {
-        c = std::tolower(c);
-    }
-
-    while (method != "euclidean" && method != "manhattan")
-    {
-        std::cerr << "Invalid method. Please enter 'euclidean' or 'manhattan'." << std::endl;
-        std::cout << "Enter the distance calculation method (euclidean or manhattan): ";
-        std::cin >> method;
-
-        for (char &c : method)
-        {
-            c = std::tolower(c);
-        }
-    }
-
-    // Calculate and print the distance
     double distance;
     if (method == "euclidean")
     {
-        distance = std::round(std::sqrt(std::pow(point2.x - point1.x, 2) + std::pow(point2.y - point1.y, 2) + std::pow(point2.z - point1.z, 2)));
+        distance = calculateEuclideanDistance(point1, point2);
     }
     else if (method == "manhattan")
     {
-        distance = std::fabs(point2.x - point1.x) + std::fabs(point2.y - point1.y) + std::fabs(point2.z - point1.z);
+        distance = calculateManhattanDistance(point1, point2);
     }
 
     std::cout << "The " << method << " distance between the two points is: " << distance << std::endl;

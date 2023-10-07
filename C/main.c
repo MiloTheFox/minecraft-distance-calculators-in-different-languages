@@ -1,23 +1,25 @@
+
 /**
  * @author LunaTheFox20
  * @license MIT
- * @version v1.0, 09/30/2023 - 01:31AM GMT+1
+ * @version v1.1, 10/07/2023 - 12:45PM GMT+1
  */
 
-// Import the necessary Libraries
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
 
-// Define a struct to represent a point
+#define PROMPT_POINT1 "Enter coordinates for Point 1 in the format 'x y z': "
+#define PROMPT_POINT2 "Enter coordinates for Point 2 in the format 'x y z': "
+#define PROMPT_METHOD "Enter the distance calculation method (euclidean or manhattan): "
+
 struct Point
 {
     double x, y, z;
 };
 
-// Function to read a line of input and remove the newline character
 void safeInput(char *buffer, size_t bufferSize)
 {
     if (fgets(buffer, bufferSize, stdin) == NULL)
@@ -26,101 +28,63 @@ void safeInput(char *buffer, size_t bufferSize)
         exit(EXIT_FAILURE);
     }
 
-    // Remove the trailing newline character, if present (to prevent buffer overflows)
     size_t len = strlen(buffer);
     if (len > 0 && buffer[len - 1] == '\n')
         buffer[len - 1] = '\0';
 }
 
-// Function to validate a double input
-int validateDoubleInput(const char *input)
+void inputAndValidatePoint(struct Point *point, const char *prompt)
 {
-    if (input == NULL || *input == '\0')
-        return 0;
+    char inputBuffer[100];
 
-    int count = 0; // Number of valid doubles found
-    char *endptr;
+    printf("%s", prompt);
+    safeInput(inputBuffer, sizeof(inputBuffer));
 
-    // Loop through the input, attempting to parse doubles
-    while (*input)
+    while (sscanf(inputBuffer, "%lf %lf %lf", &point->x, &point->y, &point->z) != 3)
     {
-        strtod(input, &endptr);
-
-        // If the entire string was not consumed, it's not a valid double
-        if (endptr == input)
-            return 0;
-
-        count++;
-        input = endptr; // Move the input pointer to the next position
-
-        // Skip whitespace characters
-        while (isspace(*input))
-            input++;
+        fprintf(stderr, "Invalid input. Please enter three valid numbers only.\n");
+        printf("%s", prompt);
+        safeInput(inputBuffer, sizeof(inputBuffer));
     }
+}
 
-    // Check if exactly three valid doubles were found
-    return (count == 3);
+double calculateDistance(const struct Point *point1, const struct Point *point2, const char *method)
+{
+    if (strcmp(method, "euclidean") == 0)
+    {
+        double dx = point2->x - point1->x;
+        double dy = point2->y - point1->y;
+        double dz = point2->z - point1->z;
+        return sqrt(dx * dx + dy * dy + dz * dz);
+    }
+    else if (strcmp(method, "manhattan") == 0)
+    {
+        return fabs(point2->x - point1->x) + fabs(point2->y - point1->y) + fabs(point2->z - point1->z);
+    }
+    else
+    {
+        fprintf(stderr, "Invalid method. Please enter 'euclidean' or 'manhattan'.\n");
+        exit(EXIT_FAILURE);
+    }
 }
 
 int main()
 {
     struct Point point1, point2;
-    char inputBuffer[100];
     char method[20];
 
-    // Input for Point 1
-    printf("Enter coordinates for Point 1 in the format 'x y z': ");
-    safeInput(inputBuffer, sizeof(inputBuffer));
+    inputAndValidatePoint(&point1, PROMPT_POINT1);
+    inputAndValidatePoint(&point2, PROMPT_POINT2);
 
-    // Checking the input if it has 3 valid numbers or not
-    while (sscanf(inputBuffer, "%lf %lf %lf", &point1.x, &point1.y, &point1.z) != 3 || !validateDoubleInput(inputBuffer))
-    {
-        // If there are no 3 valid numbers, the program will reprompt the user for
-        fprintf(stderr, "Invalid input. Please enter three valid numbers only.\n");
-        printf("Enter coordinates for Point 1 in the format 'x y z': ");
-        safeInput(inputBuffer, sizeof(inputBuffer));
-    }
-
-    // Input for Point 2
-    printf("Enter coordinates for Point 2 in the format 'x y z': ");
-    safeInput(inputBuffer, sizeof(inputBuffer));
-
-    // Same logic for line 76 and 78
-    while (sscanf(inputBuffer, "%lf %lf %lf", &point2.x, &point2.y, &point2.z) != 3 || !validateDoubleInput(inputBuffer))
-    {
-        fprintf(stderr, "Invalid input. Please enter three valid numbers only.\n");
-        printf("Enter coordinates for Point 2 in the format 'x y z': ");
-        safeInput(inputBuffer, sizeof(inputBuffer));
-    }
-
-    // Input for Method
-    printf("Enter the distance calculation method (euclidean or manhattan): ");
+    printf("%s", PROMPT_METHOD);
     safeInput(method, sizeof(method));
 
-    // Convert method to lowercase and validate
     for (int i = 0; method[i]; i++)
     {
         method[i] = tolower(method[i]);
     }
 
-    while (strcmp(method, "euclidean") != 0 && strcmp(method, "manhattan") != 0)
-    {
-        fprintf(stderr, "Invalid method. Please enter 'euclidean' or 'manhattan'.\n");
-        printf("Enter the distance calculation method (euclidean or manhattan): ");
-        safeInput(method, sizeof(method));
-    }
-
-    // Calculate and print the distance
-    double distance;
-    if (strcmp(method, "euclidean") == 0)
-    {
-        distance = round(pow(point2.x - point1.x, 2) + pow(point2.y - point1.y, 2) + pow(point2.z - point1.z, 2));
-    }
-    else if (strcmp(method, "manhattan") == 0)
-    {
-        distance = fabs(point2.x - point1.x) + fabs(point2.y - point1.y) + fabs(point2.z - point1.z);
-    }
-
+    double distance = calculateDistance(&point1, &point2, method);
     printf("The %s distance between the two points is: %lf\n", method, distance);
 
     return 0;

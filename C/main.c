@@ -40,7 +40,7 @@ void inputAndValidatePoint(struct Point *point, const char *prompt)
     printf("%s", prompt);
     safeInput(inputBuffer, sizeof(inputBuffer));
 
-    while (sscanf(inputBuffer, "%lf %lf %lf", &point->x, &point->y, &point->z) != 3)
+    while (sscanf(inputBuffer, "%lf %lf %lf", &point -> x, &point -> y, &point -> z) != 3)
     {
         fprintf(stderr, "Invalid input. Please enter three valid numbers only.\n");
         printf("%s", prompt);
@@ -52,14 +52,14 @@ double calculateDistance(const struct Point *point1, const struct Point *point2,
 {
     if (strcmp(method, "euclidean") == 0)
     {
-        double dx = point2->x - point1->x;
-        double dy = point2->y - point1->y;
-        double dz = point2->z - point1->z;
+        double dx = point2 -> x - point1 -> x;
+        double dy = point2 -> y - point1 -> y;
+        double dz = point2 -> z - point1 -> z;
         return sqrt(dx * dx + dy * dy + dz * dz);
     }
     else if (strcmp(method, "manhattan") == 0)
     {
-        return fabs(point2->x - point1->x) + fabs(point2->y - point1->y) + fabs(point2->z - point1->z);
+        return fabs(point2 -> x - point1 -> x) + fabs(point2 -> y - point1 -> y) + fabs(point2 -> z - point1 -> z);
     }
     else
     {

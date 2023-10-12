@@ -21,17 +21,7 @@ def manhattan_distance(point1, point2):
     return dx + dy + dz
 
 distance_functions = {
-    """
-    Calculate the Euclidean distance between two 3D points.
-
-    Args:
-    point1 (tuple): A tuple containing (x, y, z) coordinates of the first point.
-    point2 (tuple): A tuple containing (x, y, z) coordinates of the second point.
-
-    Returns:
-    float: The Euclidean distance between the two points.
-    """
-    EUCLIDEAN_METHOD: lambda point1, point2: round(math.dist(point1, point2)),
+    EUCLIDEAN_METHOD: math.dist,
     MANHATTAN_METHOD: manhattan_distance
 }
 
@@ -40,6 +30,27 @@ def get_point_input(prompt):
     x, y, z = map(float, input_str.split())
     return (x, y, z)
 
+def distance_function(point1, point2, method, distance_functions):
+    """
+    Calculate the distance between two 3D points using a given method.
+
+    Args:
+    point1 (tuple): A tuple containing (x, y, z) coordinates of the first point.
+    point2 (tuple): A tuple containing (x, y, z) coordinates of the second point.
+    method (str): The name of the distance method to be used.
+    distance_functions (dict): A dictionary mapping distance methods to functions.
+
+    Returns:
+    float: The distance between the two points using the given method.
+    """
+    
+    try:
+        distance_function = distance_functions[method]
+        return round(distance_function(point1, point2))
+    except KeyError:
+        print("Invalid distance method. Please enter 'euclidean' or 'manhattan'.")
+        return None
+
 while True:
     try:
         point1 = get_point_input("Enter Point 1 (x y z): ")
@@ -47,12 +58,8 @@ while True:
 
         method = input("Enter the distance method to be used (euclidean/manhattan): ").lower()
         
-        try:
-            distance_function = distance_functions[method]
-        except KeyError:
-            print("Invalid distance method. Please enter 'euclidean' or 'manhattan'.")
-        else:
-            distance = distance_function(point1, point2)
+        distance = distance_function(point1, point2, method, distance_functions)
+        if distance is not None:
             print(f"{method.capitalize()} Distance: {distance}")
             break
 

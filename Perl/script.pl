@@ -1,7 +1,7 @@
 #!/usr/bin/env perl -T
 
 use strict;
-use warnings;
+use warnings FATAL => 'all';
 use POSIX;
 use feature 'say';
 
@@ -12,7 +12,7 @@ sub euclidean_distance {
     my $dy = $y1 - $y2;
     my $dz = $z1 - $z2;
     my $distance_squared = $dx**2 + $dy**2 + $dz**2;
-    return floor(sqrt($distance_squared));
+    return floor($distance_squared);
 }
 
 # Calculate Manhattan distance between two 3D points
@@ -24,16 +24,16 @@ sub manhattan_distance {
 # Main program
 sub main {
     # Prompt for the first 3D point
-    print "Enter the first 3D point (e.g., '10 32 -54'): ";
-    my ($x1, $y1, $z1) = split ' ', readline STDIN;
+    say "Enter the first 3D point (e.g., '10 32 -54'): ";
+    my ($x1, $y1, $z1) = split ' ', <>;
 
     # Prompt for the second 3D point
-    print "Enter the second 3D point (e.g., '5 20 10'): ";
-    my ($x2, $y2, $z2) = split ' ', readline STDIN;
+    say "Enter the second 3D point (e.g., '5 20 10'): ";
+    my ($x2, $y2, $z2) = split ' ', <>;
 
     # Prompt for the choice of distance calculation
-    print "Choose the distance to calculate (euclidean/manhattan): ";
-    my $choice = readline STDIN;
+    say "Choose the distance to calculate (euclidean/manhattan): ";
+    my $choice = <>;
     chomp($choice);
 
     my %distance_functions = (
@@ -41,11 +41,11 @@ sub main {
         'manhattan' => \&manhattan_distance,
     );
 
-    my $distance_function = $distance_functions{lc $choice};
+    my $distance_function = $distance_functions{lc($choice)};
 
     if ($distance_function) {
-        my $distance = $distance_function->($x1, $y1, $z1, $x2, $y2, $z2);
-        say "Distance between the points using $choice distance: $distance";
+        my $distance = &$distance_function($x1, $y1, $z1, $x2, $y2, $z2);
+        say "Distance between the points using '$choice' distance: '$distance'";
     } else {
         die "Invalid choice: '$choice'. Please enter 'euclidean' or 'manhattan'.";
     }

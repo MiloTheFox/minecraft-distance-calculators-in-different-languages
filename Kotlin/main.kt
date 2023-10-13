@@ -14,16 +14,9 @@ fun main() {
     val point2 = readValidPoint()
 
     println("Choose the distance method (euclidean/manhattan):")
-    val distanceMethod = readLine()?.trim()?.lowercase()
+    val distanceMethod = readLine() ?: ""
 
-    val selectedMethod = when (distanceMethod) {
-        "euclidean" -> DistanceMethod.EUCLIDEAN
-        "manhattan" -> DistanceMethod.MANHATTAN
-        else -> {
-            println("Invalid distance method. Please choose either 'euclidean' or 'manhattan'.")
-            return
-        }
-    }
+    val selectedMethod = DistanceMethod.valueOf(distanceMethod.uppercase())
 
     val distance = calculateDistance(point1, point2, selectedMethod)
     println("${selectedMethod.name.replaceFirstChar { it.uppercase() }} Distance: $distance")
@@ -34,7 +27,7 @@ data class Point(val x: Double, val y: Double, val z: Double)
 fun readValidPoint(): Point {
     println("Please enter 3 coordinates separated by spaces (e.g., 1.0 2.0 3.0):")
     val input = readLine() ?: ""
-    val coordinates = input.split(" ").mapNotNull { it.toDoubleOrNull() }
+    val coordinates = input.split("\\s+".toRegex()).mapNotNull { it.toDoubleOrNull() }
 
     require(coordinates.size == 3) { "Invalid input. Please enter only 3 coordinates and make sure they're numbers!" }
 

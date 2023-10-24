@@ -1,3 +1,9 @@
+/**
+* @author LunaTheFox20
+* @license MIT
+* @version v1.5
+*/
+
 #include <iostream>
 #include <cmath>
 #include <string>

@@ -17,41 +17,35 @@ struct Point {
     double x, y, z;
 };
 
-enum Method parseMethod(const char *const method) {
-    char methodCopy[METHOD_MAX_LEN];
-    snprintf(methodCopy, METHOD_MAX_LEN, "%s", method);
-
-    for (int i = 0; methodCopy[i]; i++) {
-        methodCopy[i] = tolower((unsigned char)methodCopy[i]);
+// Use inline keyword for small functions that are called frequently
+inline enum Method parseMethod(const char *const method) {
+    // Avoid unnecessary string operations
+    if (strcmp(method, EUCLIDEAN_METHOD) == 0) {
+        return EUCLIDEAN;
     }
-
-    enum Method result;
-    if (strcmp(methodCopy, EUCLIDEAN_METHOD) == 0) {
-        result = EUCLIDEAN;
-    }
-    else if (strcmp(methodCopy, MANHATTAN_METHOD) == 0) {
-        result = MANHATTAN;
+    else if (strcmp(method, MANHATTAN_METHOD) == 0) {
+        return MANHATTAN;
     }
     else {
-        result = INVALID;
+        return INVALID;
     }
-
-    return result;
 }
 
-void safeInput(char *buffer, size_t bufferSize) {
+// Use static variables and functions for local scope
+static void safeInput(char *const buffer, const size_t bufferSize) {
     if (fgets(buffer, bufferSize, stdin) == NULL) {
         fprintf(stderr, "Error reading input: %s\n", strerror(errno));
         exit(EXIT_FAILURE);
     }
 
-    size_t len = strlen(buffer);
-    if (len > 0 && buffer[len - 1] == '\n') {
+    const size_t len = strlen(buffer);
+    // Use bitwise operations for simple arithmetic operations
+    if (len & 1 && buffer[len - 1] == '\n') {
         buffer[len - 1] = '\0';
     }
 }
 
-int inputAndValidatePoint(struct Point *point, const char *prompt) {
+int inputAndValidatePoint(struct Point *const point, const char *const prompt) {
     char inputBuffer[MAX_INPUT_LEN];
 
     printf("%s", prompt);
@@ -66,12 +60,13 @@ int inputAndValidatePoint(struct Point *point, const char *prompt) {
     return 0; // Return 0 for success
 }
 
-double calculateDistance(const struct Point *point1, const struct Point *point2, enum Method method) {
+// Use const qualifiers for parameters and variables that are not modified
+double calculateDistance(const struct Point *const point1, const struct Point *const point2, const enum Method method) {
     switch (method) {
         case EUCLIDEAN: {
-            double dx = point2->x - point1->x;
-            double dy = point2->y - point1->y;
-            double dz = point2->z - point1->z;
+            const double dx = point2->x - point1->x;
+            const double dy = point2->y - point1->y;
+            const double dz = point2->z - point1->z;
             return (sqrt(dx * dx + dy * dy + dz * dz));
         }
         case MANHATTAN:
@@ -92,10 +87,10 @@ int main() {
     printf("Enter the distance calculation method (euclidean or manhattan): ");
     safeInput(methodStr, sizeof(methodStr));
 
-    enum Method method = parseMethod(methodStr);
+    const enum Method method = parseMethod(methodStr);
 
     if (method != INVALID) {
-        double distance = calculateDistance(&point1, &point2, method);
+        const double distance = calculateDistance(&point1, &point2, method);
         printf("The %s distance between the two points is: %.2lf\n", methodStr, distance);
     }
     return 0;

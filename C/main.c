@@ -4,6 +4,7 @@
 #include <math.h>
 #include <ctype.h>
 #include <errno.h>
+#include <stdbool.h>
 
 #define MAX_INPUT_LEN 100
 #define METHOD_MAX_LEN 20
@@ -11,22 +12,46 @@
 #define MANHATTAN_METHOD "manhattan"
 #define NUM_COORDS 3
 
-enum Method { EUCLIDEAN, MANHATTAN, INVALID };
+enum Method
+{
+    EUCLIDEAN,
+    MANHATTAN,
+    INVALID
+};
 
-struct Point {
+struct Point
+{
     double x, y, z;
 };
 
-// Use inline keyword for small functions that are called frequently
-inline enum Method parseMethod(const char *const method) {
-    // Avoid unnecessary string operations
-    if (strcmp(method, EUCLIDEAN_METHOD) == 0) {
+// Custom case-insensitive string comparison
+bool caseInsensitiveStringEquals(const char *s1, const char *s2)
+{
+    while (*s1 && *s2)
+    {
+        if (tolower(*s1) != tolower(*s2))
+        {
+            return false;
+        }
+        s1++;
+        s2++;
+    }
+    return (*s1 == '\0' && *s2 == '\0');
+}
+
+// Modify the parseMethod function to make the comparison case-insensitive
+inline enum Method parseMethod(const char *const method)
+{
+    if (caseInsensitiveStringEquals(method, EUCLIDEAN_METHOD))
+    {
         return EUCLIDEAN;
     }
-    else if (strcmp(method, MANHATTAN_METHOD) == 0) {
+    else if (caseInsensitiveStringEquals(method, MANHATTAN_METHOD))
+    {
         return MANHATTAN;
     }
-    else {
+    else
+    {
         return INVALID;
     }
 }
@@ -48,39 +73,43 @@ static void safeInput(char *const buffer, const size_t bufferSize)
     }
 }
 
-int inputAndValidatePoint(struct Point *const point, const char *const prompt) {
+int inputAndValidatePoint(struct Point *const point, const char *const prompt)
+{
     char inputBuffer[MAX_INPUT_LEN];
 
     printf("%s", prompt);
     safeInput(inputBuffer, sizeof(inputBuffer));
 
-    while (sscanf(inputBuffer, "%lf %lf %lf", &point->x, &point->y, &point->z) != NUM_COORDS) {
+    while (sscanf(inputBuffer, "%lf %lf %lf", &point->x, &point->y, &point->z) != NUM_COORDS)
+    {
         fprintf(stderr, "Invalid input. Please enter three valid numbers only.\n");
         printf("%s", prompt);
         safeInput(inputBuffer, sizeof(inputBuffer));
     }
-
     return 0; // Return 0 for success
 }
 
-// Use const qualifiers for parameters and variables that are not modified
-double calculateDistance(const struct Point *const point1, const struct Point *const point2, const enum Method method) {
-    switch (method) {
-        case EUCLIDEAN: {
-            const double dx = point2->x - point1->x;
-            const double dy = point2->y - point1->y;
-            const double dz = point2->z - point1->z;
-            return (sqrt(dx * dx + dy * dy + dz * dz));
-        }
-        case MANHATTAN:
-            return (fabs(point2->x - point1->x) + fabs(point2->y - point1->y) + fabs(point2->z - point1->z));
-        default:
-            fprintf(stderr, "Invalid method. Please enter 'euclidean' or 'manhattan'.\n");
-            return -1; // Indicate error
+double calculateDistance(const struct Point *const point1, const struct Point *const point2, const enum Method method)
+{
+    switch (method)
+    {
+    case EUCLIDEAN:
+    {
+        const double dx = point2->x - point1->x;
+        const double dy = point2->y - point1->y;
+        const double dz = point2->z - point1->z;
+        return (sqrt(dx * dx + dy * dy + dz * dz));
+    }
+    case MANHATTAN:
+        return (fabs(point2->x - point1->x) + fabs(point2->y - point1->y) + fabs(point2->z - point1->z));
+    default:
+        fprintf(stderr, "Invalid method. Please enter 'euclidean' or 'manhattan'.\n");
+        return -1; // Indicate error
     }
 }
 
-int main() {
+int main()
+{
     struct Point point1, point2;
     char methodStr[METHOD_MAX_LEN];
 
@@ -92,9 +121,22 @@ int main() {
 
     const enum Method method = parseMethod(methodStr);
 
-    if (method != INVALID) {
+    if (method != INVALID)
+    {
         const double distance = calculateDistance(&point1, &point2, method);
-        printf("The %s distance between the two points is: %.2lf\n", methodStr, distance);
+        if (distance != -1)
+        {
+            printf("The %s distance between the two points is: %.2lf\n", methodStr, distance);
+        }
+        else
+        {
+            fprintf(stderr, "Invalid method. Please enter 'euclidean' or 'manhattan'.\n");
+        }
     }
+    else
+    {
+        fprintf(stderr, "Invalid method. Please enter 'euclidean' or 'manhattan'.\n");
+    }
+
     return 0;
 }

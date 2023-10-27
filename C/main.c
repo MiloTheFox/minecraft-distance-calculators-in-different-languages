@@ -32,15 +32,18 @@ inline enum Method parseMethod(const char *const method) {
 }
 
 // Use static variables and functions for local scope
-static void safeInput(char *const buffer, const size_t bufferSize) {
-    if (fgets(buffer, bufferSize, stdin) == NULL) {
+static void safeInput(char *const buffer, const size_t bufferSize)
+{
+    if (fgets(buffer, bufferSize, stdin) == NULL)
+    {
         fprintf(stderr, "Error reading input: %s\n", strerror(errno));
         exit(EXIT_FAILURE);
     }
 
     const size_t len = strlen(buffer);
-    // Use bitwise operations for simple arithmetic operations
-    if (len & 1 && buffer[len - 1] == '\n') {
+
+    if (buffer[len - 1] == '\n')
+    {
         buffer[len - 1] = '\0';
     }
 }

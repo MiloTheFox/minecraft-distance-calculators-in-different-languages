@@ -9,10 +9,8 @@ struct Point {
 const PROMPT_CHOICE: &str = "Enter your choice (1 for Euclidean, 2 for Manhattan): ";
 
 fn main() {
-    let point1 = get_coordinates("Enter the first point (x1 y1 z1): ")
-        .expect("Failed to get coordinates for point 1");
-    let point2 = get_coordinates("Enter the second point (x2 y2 z2): ")
-        .expect("Failed to get coordinates for point 2");
+    let point1 = get_point("Enter the first point (x1 y1 z1): ");
+    let point2 = get_point("Enter the second point (x2 y2 z2): ");
 
     match get_distance_calculation_choice() {
         Ok(1) => {
@@ -27,23 +25,24 @@ fn main() {
     }
 }
 
-fn get_coordinates(prompt: &str) -> io::Result<Point> {
+fn get_point(prompt: &str) -> Point {
     loop {
         print!("{}", prompt);
         io::stdout().flush().unwrap();
         let mut input = String::new();
-        io::stdin().read_line(&mut input)?;
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read input");
 
-        let coordinates: Result<Vec<f64>, _> =
-            input.split_whitespace().map(|s| s.trim().parse()).collect();
+        let coordinates: Vec<_> = input.split_whitespace().map(|s| s.trim().parse()).collect();
 
-        match coordinates {
-            Ok(coords) if coords.len() == 3 => {
-                return Ok(Point {
-                    x: coords[0],
-                    y: coords[1],
-                    z: coords[2],
-                });
+        match coordinates.as_slice() {
+            [Ok(x), Ok(y), Ok(z)] => {
+                return Point {
+                    x: *x,
+                    y: *y,
+                    z: *z,
+                }
             }
             _ => println!("Invalid input. Please enter three numbers separated by spaces."),
         }
@@ -59,9 +58,7 @@ fn get_distance_calculation_choice() -> io::Result<u32> {
 
         match input.trim().parse() {
             Ok(1) | Ok(2) => return Ok(input.trim().parse().unwrap()),
-            _ => {
-                println!("Invalid choice. Please select 1 or 2.");
-            }
+            _ => println!("Invalid choice. Please select 1 or 2."),
         }
     }
 }

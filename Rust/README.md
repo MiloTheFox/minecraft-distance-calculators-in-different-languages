@@ -54,6 +54,5 @@ This project is licensed under the MIT License. For more details, check the [LIC
 
 - **LunaTheFox20**
 - GitHub: [LunaTheFox20](https://github.com/LunaTheFox20)
-- Codeberg: [LunaTheFox2023](https://codeberg.org/LunaTheFox2023/)
 
 Enjoy calculating distances between points in 3D space!

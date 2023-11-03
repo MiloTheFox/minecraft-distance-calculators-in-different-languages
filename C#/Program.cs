@@ -21,9 +21,27 @@ class Program
         Point3D point1 = GetPointFromUser("Enter the first point (x y z): ");
         Point3D point2 = GetPointFromUser("Enter the second point (x y z):");
 
-        double distance = CalculateDistance(point1, point2);
+        Console.WriteLine("Choose a distance method: ");
+        Console.WriteLine("1 - Euclidean distance");
+        Console.WriteLine("2 - Manhattan distance");
+        string choice = Console.ReadLine();
 
-        Console.WriteLine("Distance between the two points: " + distance.ToString("F2"));
+        switch (choice)
+        {
+            case "1":
+                // Call the CalculateDistance method
+                double euclideanDistance = CalculateEuclideanDistance(point1, point2);
+                Console.WriteLine("Distance between the two points: " + euclideanDistance.ToString("F2"));
+                break;
+            case "2":
+                // Call the CalculateManhattanDistance method
+                double manhattanDistance = CalculateManhattanDistance(point1, point2);
+                Console.WriteLine("Manhattan distance between the two points: " + manhattanDistance.ToString("F2"));
+                break;
+            default:
+                Console.WriteLine("Invalid choice. Please enter 1 or 2.");
+                break;
+        }
     }
 
     static Point3D GetPointFromUser(string prompt)
@@ -61,12 +79,21 @@ class Program
         return false;
     }
 
-    static double CalculateDistance(Point3D point1, Point3D point2)
+    static double CalculateEuclideanDistance(Point3D point1, Point3D point2)
     {
         double deltaX = point1.X - point2.X;
         double deltaY = point1.Y - point2.Y;
         double deltaZ = point1.Z - point2.Z;
 
         return Math.Sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+    }
+
+    static double CalculateManhattanDistance(Point3D point1, Point3D point2)
+    {
+        double deltaX = Math.Abs(point1.X - point2.X);
+        double deltaY = Math.Abs(point1.Y - point2.Y);
+        double deltaZ = Math.Abs(point1.Z - point2.Z);
+
+        return deltaX + deltaY + deltaZ;
     }
 }

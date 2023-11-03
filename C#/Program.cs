@@ -29,7 +29,7 @@ class Program
         switch (choice)
         {
             case "1":
-                // Call the CalculateDistance method
+                // Call the CalculateEuclideanDistance method
                 double euclideanDistance = CalculateEuclideanDistance(point1, point2);
                 Console.WriteLine("Distance between the two points: " + euclideanDistance.ToString("F2"));
                 break;

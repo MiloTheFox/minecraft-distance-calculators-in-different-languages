@@ -1,6 +1,6 @@
 class DistanceCalculator
 {
-    // Definiert eine 3D-Punkt-Klasse mit X, Y und Z als Koordinaten
+    // Defining an 3D-Point-Class with X, Y and Z for the Coordinates
     public class Point3D(double x, double y, double z)
     {
         public double X { get; } = x;
@@ -8,7 +8,7 @@ class DistanceCalculator
         public double Z { get; } = z;
     }
     
-    // Enum zur Auswahl der Distanzmethode
+    // Enum for the selection of the distance method
     public enum DistanceMethod
     {
         Euclidean,
@@ -22,12 +22,12 @@ class DistanceCalculator
         DistanceMethod? choice = GetDistanceMethod();
         if (point1 == null || point2 == null || !choice.HasValue) return;
 
-        // Auswahl der Distanzmethode basierend auf der Benutzereingabe
+        // Selecting the distance method based on the user's input
         var distance = choice switch
         {
-            // Berechnung der Euklidischen Distanz zwischen zwei Punkten
+            // Calculating the euclidean distance between 2 points
             DistanceMethod.Euclidean => CalculateEuclideanDistance(in point1, in point2),
-            // Berechnung der Manhattan Distanz zwischen zwei Punkten
+            // Calculating the manhattan distance between 2 points
             DistanceMethod.Manhattan => CalculateManhattanDistance(in point1, in point2),
             _ => throw new InvalidOperationException("This distance method is not existent yet!")
         };
@@ -62,7 +62,7 @@ class DistanceCalculator
         }
     }
 
-    // Methode zur Überprüfung, ob die Benutzereingabe in einen Punkt umgewandelt werden kann
+    // Method to check if the input can be parsed into a double
     static bool ValidateInput(string input, out Point3D? result)
     {
         var parts = input.Split(" ", StringSplitOptions.RemoveEmptyEntries);
@@ -82,7 +82,7 @@ class DistanceCalculator
     {
         do
         {
-            // Eingabeaufforderung für den Benutzer zur Auswahl der Distanzmethode
+            // Prompt the user to select the distance method
             Console.WriteLine($"Choose the method: {Environment.NewLine}1 - Euclidean Distance{Environment.NewLine}2 - Manhattan Distance");
             var input = Console.ReadLine();
             switch (input)

@@ -6,6 +6,11 @@ struct Point {
     z: f64,
 }
 
+enum DistanceMethod {
+    Euclidean,
+    Manhattan,
+}
+
 const PROMPT_CHOICE: &str = "Enter your choice (1 for Euclidean, 2 for Manhattan): ";
 
 fn main() {
@@ -13,11 +18,11 @@ fn main() {
     let point2 = get_point("Enter the second point (x2 y2 z2): ");
 
     match get_distance_calculation_choice() {
-        Ok(1) => {
+        Ok(DistanceMethod::Euclidean) => {
             let euclidean_distance = euclidean_distance(&point1, &point2);
             println!("Euclidean Distance: {:.2}", euclidean_distance);
         }
-        Ok(2) => {
+        Ok(DistanceMethod::Manhattan) => {
             let manhattan_distance = manhattan_distance(&point1, &point2);
             println!("Manhattan Distance: {:.2}", manhattan_distance);
         }
@@ -28,36 +33,34 @@ fn main() {
 fn get_point(prompt: &str) -> Point {
     loop {
         print!("{}", prompt);
-        io::stdout().flush().unwrap();
+        io::stdout().flush().expect("Failed to flush stdout");
+
         let mut input = String::new();
         io::stdin()
             .read_line(&mut input)
             .expect("Failed to read input");
 
-        let coordinates: Vec<_> = input.split_whitespace().map(|s| s.trim().parse()).collect();
+        let coordinates: Vec<_> = input.trim().split_whitespace().map(|s| s.parse()).collect();
 
         match coordinates.as_slice() {
             [Ok(x), Ok(y), Ok(z)] => {
-                return Point {
-                    x: *x,
-                    y: *y,
-                    z: *z,
-                }
+                return Point { x: *x, y: *y, z: *z }
             }
             _ => println!("Invalid input. Please enter three numbers separated by spaces."),
         }
     }
 }
 
-fn get_distance_calculation_choice() -> io::Result<u32> {
+fn get_distance_calculation_choice() -> io::Result<DistanceMethod> {
     loop {
         print!("{}", PROMPT_CHOICE);
         io::stdout().flush().unwrap();
         let mut input = String::new();
         io::stdin().read_line(&mut input)?;
 
-        match input.trim().parse() {
-            Ok(1) | Ok(2) => return Ok(input.trim().parse().unwrap()),
+        match input.trim().parse::<u32>() {
+            Ok(1) => return Ok(DistanceMethod::Euclidean),
+            Ok(2) => return Ok(DistanceMethod::Manhattan),
             _ => println!("Invalid choice. Please select 1 or 2."),
         }
     }

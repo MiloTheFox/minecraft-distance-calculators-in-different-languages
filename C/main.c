@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <math.h>
-#include <ctype.h>
-#include <errno.h>
-#include <stdbool.h>
+#include <string.h>
 
 #define MAX_INPUT_LEN 100
 #define METHOD_MAX_LEN 20
@@ -24,29 +21,13 @@ struct Point
     double x, y, z;
 };
 
-// Custom case-insensitive string comparison
-bool caseInsensitiveStringEquals(const char *s1, const char *s2)
+enum Method parseMethod(const char *const method)
 {
-    while (*s1 && *s2)
-    {
-        if (tolower(*s1) != tolower(*s2))
-        {
-            return false;
-        }
-        s1++;
-        s2++;
-    }
-    return (*s1 == '\0' && *s2 == '\0');
-}
-
-// Modify the parseMethod function to make the comparison case-insensitive
-inline enum Method parseMethod(const char *const method)
-{
-    if (caseInsensitiveStringEquals(method, EUCLIDEAN_METHOD))
+    if (strcasecmp(method, EUCLIDEAN_METHOD) == 0)
     {
         return EUCLIDEAN;
     }
-    else if (caseInsensitiveStringEquals(method, MANHATTAN_METHOD))
+    else if (strcasecmp(method, MANHATTAN_METHOD) == 0)
     {
         return MANHATTAN;
     }
@@ -56,7 +37,6 @@ inline enum Method parseMethod(const char *const method)
     }
 }
 
-// Use static variables and functions for local scope
 static void safeInput(char *const buffer, const size_t bufferSize)
 {
     if (fgets(buffer, bufferSize, stdin) == NULL)
@@ -86,25 +66,23 @@ int inputAndValidatePoint(struct Point *const point, const char *const prompt)
         printf("%s", prompt);
         safeInput(inputBuffer, sizeof(inputBuffer));
     }
-    return 0; // Return 0 for success
+    return 0;
 }
 
 double calculateDistance(const struct Point *const point1, const struct Point *const point2, const enum Method method)
 {
+    const double dx = point2->x - point1->x;
+    const double dy = point2->y - point1->y;
+    const double dz = point2->z - point1->z;
+
     switch (method)
     {
     case EUCLIDEAN:
-    {
-        const double dx = point2->x - point1->x;
-        const double dy = point2->y - point1->y;
-        const double dz = point2->z - point1->z;
         return (sqrt(dx * dx + dy * dy + dz * dz));
-    }
     case MANHATTAN:
-        return (fabs(point2->x - point1->x) + fabs(point2->y - point1->y) + fabs(point2->z - point1->z));
+        return (fabs(dx) + fabs(dy) + fabs(dz));
     default:
-        fprintf(stderr, "Invalid method. Please enter 'euclidean' or 'manhattan'.\n");
-        return -1; // Indicate error
+        return -1;
     }
 }
 

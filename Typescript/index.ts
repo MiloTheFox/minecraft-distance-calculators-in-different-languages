@@ -1,4 +1,5 @@
 import * as readline from 'readline';
+import { promisify } from 'util';
 
 interface CoordinateLimits {
   X: { min: number; max: number };
@@ -24,37 +25,31 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-function square(x: number): number {
-  return x * x;
-}
+const questionAsync = promisify(rl.question).bind(rl);
 
-function validateCoordinateValue(value: number, limit: { min: number; max: number }): boolean {
-  return value >= limit.min && value <= limit.max;
-}
+function parseAndValidateCoordinates(input: string): Coordinates | null {
+  const parts = input.split(' ').map(part => parseFloat(part.trim())) as Coordinates;
 
-function validateCoordinates(coordinates: Coordinates): boolean {
-  if (coordinates.length !== 3 || coordinates.some(isNaN)) {
-    return false;
+  if (parts.length !== 3 || parts.some(isNaN)) {
+    return null;
   }
 
-  return Object.keys(COORDINATE_LIMITS).every((key, index) => {
+  if (Object.keys(COORDINATE_LIMITS).every((key, index) => {
     const limitKey = key as keyof CoordinateLimits;
-    const value = coordinates[index];
+    const value = parts[index];
     const limit = COORDINATE_LIMITS[limitKey];
-    return validateCoordinateValue(value, limit);
-  });
-}
-
-function parseCoordinates(input: string): Coordinates | null {
-  const parts = input.split(' ').map(part => parseFloat(part.trim())) as Coordinates;
-  return validateCoordinates(parts) ? parts : null;
+    return value >= limit.min && value <= limit.max;
+  })) {
+    return parts;
+  } else {
+    return null;
+  }
 }
 
 async function promptCoordinates(promptText: string): Promise<Coordinates> {
   while (true) {
-    const input = await new Promise<string>(resolve => rl.question(promptText, resolve));
-
-    const coordinates = parseCoordinates(input);
+    const input = await questionAsync(promptText);
+    const coordinates = parseAndValidateCoordinates(input);
 
     if (coordinates) {
       return coordinates;
@@ -66,10 +61,9 @@ async function promptCoordinates(promptText: string): Promise<Coordinates> {
 
 async function promptDistanceMethod(promptText: string): Promise<DistanceMethod> {
   while (true) {
-    const input = await new Promise<string>(resolve => rl.question(promptText, resolve));
+    const input = await questionAsync(promptText);
     const distanceMethod = input.trim().toLowerCase() as DistanceMethod;
 
-    
     if (distanceMethod === DistanceMethod.EUCLIDEAN || distanceMethod === DistanceMethod.MANHATTAN) {
       return distanceMethod;
     } else {
@@ -84,11 +78,9 @@ function calculateDistance(coords1: Coordinates, coords2: Coordinates, method: D
 
   switch (method) {
     case DistanceMethod.EUCLIDEAN:
-      return Math.round(Math.sqrt(square(x1 - x2) + square(y1 - y2) + square(z1 - z2));
+      return Math.round(Math.hypot(x1 - x2, y1 - y2, z1 - z2));
     case DistanceMethod.MANHATTAN:
       return Math.abs(x1 - x2) + Math.abs(y1 - y2) + Math.abs(z1 - z2);
-    default:
-      throw new Error(`Unsupported distance method: ${method}`);
   }
 }
 

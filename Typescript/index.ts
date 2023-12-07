@@ -1,5 +1,5 @@
 import * as readline from 'readline';
-import { promisify } from 'util';
+import { promisify } from 'node:util';
 
 interface CoordinateLimits {
   X: { min: number; max: number };

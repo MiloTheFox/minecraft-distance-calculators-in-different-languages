@@ -16,11 +16,8 @@ enum DistanceMethod {
 const PROMPT_CHOICE: &str = "Enter your choice (1 for Euclidean, 2 for Manhattan): ";
 
 fn main() {
-    match (
-        get_point("Enter the first point (x1 y1 z1): "),
-        get_point("Enter the second point (x2 y2 z2): "),
-    ) {
-        (Ok(point1), Ok(point2)) => match get_distance_calculation_choice() {
+    match get_points("Enter the first point (x1 y1 z1): ", "Enter the second point (x2 y2 z2): ") {
+        Ok((point1, point2)) => match get_distance_calculation_choice() {
             Ok(DistanceMethod::Euclidean) => {
                 let euclidean_distance = euclidean_distance(&point1, &point2);
                 println!("Euclidean Distance: {:.2}", euclidean_distance);
@@ -35,6 +32,12 @@ fn main() {
     }
 }
 
+fn get_points(prompt1: &str, prompt2: &str) -> Result<(Point, Point), io::Error> {
+    let point1 = get_point(prompt1)?;
+    let point2 = get_point(prompt2)?;
+    Ok((point1, point2))
+}
+
 fn get_point(prompt: &str) -> Result<Point, io::Error> {
     loop {
         print!("{}", prompt);
@@ -45,12 +48,17 @@ fn get_point(prompt: &str) -> Result<Point, io::Error> {
         let mut input = String::new();
         io::stdin().read_line(&mut input)?;
 
-        let mut iter = input.trim().split_whitespace().map(|s| s.parse());
-        match (iter.next(), iter.next(), iter.next(), iter.next()) {
-            (Some(Ok(x)), Some(Ok(y)), Some(Ok(z)), None) => {
+        let coordinates: Vec<_> = input.trim().split_whitespace()
+            .map(|s| s.parse())
+            .collect();
+
+        match coordinates.len() {
+            3 if coordinates.iter().all(|res| res.is_ok()) => {
+                let coordinates: Vec<_> = coordinates.into_iter().map(|res| res.unwrap()).collect();
+                let [x, y, z] = [coordinates[0], coordinates[1], coordinates[2]];
                 return Ok(Point { x, y, z });
             }
-            (None, None, None, None) => {
+            0 => {
                 println!("No input. Please enter three valid numbers separated by spaces.");
             }
             _ => {
@@ -70,14 +78,14 @@ fn get_distance_calculation_choice() -> io::Result<DistanceMethod> {
         let mut input = String::new();
         io::stdin().read_line(&mut input)?;
 
-        return Ok(match input.trim().parse::<u32>().unwrap_or(0) {
-            1 => DistanceMethod::Euclidean,
-            2 => DistanceMethod::Manhattan,
+        return match input.trim().parse::<u32>() {
+            Ok(1) => Ok(DistanceMethod::Euclidean),
+            Ok(2) => Ok(DistanceMethod::Manhattan),
             _ => {
                 println!("Invalid choice. Please select 1 or 2.");
                 continue;
             }
-        });
+        };
     }
 }
 

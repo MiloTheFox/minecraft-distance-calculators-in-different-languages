@@ -39,7 +39,7 @@ Once you have Rust and Cargo installed, follow these steps:
 3. Compile and run the Rust code:
 
     ```shell
-    cargo run
+    cargo build --release; cargo run --release
     ```
 
 4. Follow the on-screen instructions to input coordinates and select the distance calculation method.

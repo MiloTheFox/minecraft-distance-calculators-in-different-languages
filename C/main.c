@@ -85,7 +85,8 @@ double calculateDistance(const struct Point *const point1, const struct Point *c
     {
         const double dx = fabs(point2->x - point1->x);
         const double dy = fabs(point2->y - point1->y);
-        return dx + dy;
+        const double dz = fabs(point2->z - point1->z);
+        return dx + dy + dz;
     }
     default:
         return -1;

@@ -8,6 +8,7 @@
 #define EUCLIDEAN_METHOD "euclidean"
 #define MANHATTAN_METHOD "manhattan"
 #define NUM_COORDS 3
+#define INVALID_METHOD_MSG "Invalid method. Please enter 'euclidean' or 'manhattan'.\n"
 
 enum Method
 {
@@ -71,16 +72,21 @@ int inputAndValidatePoint(struct Point *const point, const char *const prompt)
 
 double calculateDistance(const struct Point *const point1, const struct Point *const point2, const enum Method method)
 {
-    const double dx = point2->x - point1->x;
-    const double dy = point2->y - point1->y;
-    const double dz = point2->z - point1->z;
-
     switch (method)
     {
     case EUCLIDEAN:
-        return (sqrt(dx * dx + dy * dy + dz * dz));
+    {
+        const double dx = point2->x - point1->x;
+        const double dy = point2->y - point1->y;
+        const double dz = point2->z - point1->z;
+        return sqrt(dx * dx + dy * dy + dz * dz);
+    }
     case MANHATTAN:
-        return (fabs(dx) + fabs(dy) + fabs(dz));
+    {
+        const double dx = fabs(point2->x - point1->x);
+        const double dy = fabs(point2->y - point1->y);
+        return dx + dy;
+    }
     default:
         return -1;
     }
@@ -108,12 +114,12 @@ int main()
         }
         else
         {
-            fprintf(stderr, "Invalid method. Please enter 'euclidean' or 'manhattan'.\n");
+            fprintf(stderr, INVALID_METHOD_MSG);
         }
     }
     else
     {
-        fprintf(stderr, "Invalid method. Please enter 'euclidean' or 'manhattan'.\n");
+        fprintf(stderr, INVALID_METHOD_MSG);
     }
 
     return 0;

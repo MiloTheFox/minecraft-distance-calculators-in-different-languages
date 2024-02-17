@@ -105,7 +105,7 @@ class DistanceCalculator
                 case "2":
                     return DistanceMethod.Manhattan;
                 default:
-                    Console.WriteLine($"Incorrect Input! Please use \"1\" for the euclidean distance or \"2\" for the manhattan distance an!{Environment.NewLine}");
+                    Console.WriteLine($"Incorrect Input! Please use \"1\" for the euclidean distance or \"2\" for the manhattan distance!{Environment.NewLine}");
                     break;
             }
         }

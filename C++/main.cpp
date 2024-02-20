@@ -12,7 +12,6 @@
 #include <optional>
 #include <algorithm>
 #include <limits> // For numeric_limits
-#include <map>
 
 struct Point
 {

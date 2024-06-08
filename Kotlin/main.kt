@@ -7,16 +7,9 @@ enum class DistanceMethod {
 }
 
 fun main() {
-    println("Enter the coordinates of the first point (x1 y1 z1):")
-    val point1 = readValidPoint()
-
-    println("Enter the coordinates of the second point (x2 y2 z2):")
-    val point2 = readValidPoint()
-
-    println("Choose the distance method (euclidean/manhattan):")
-    val distanceMethod = readLine() ?: ""
-
-    val selectedMethod = DistanceMethod.valueOf(distanceMethod.uppercase())
+    val point1 = readValidPoint("first")
+    val point2 = readValidPoint("second")
+    val selectedMethod = readDistanceMethod()
 
     val distance = calculateDistance(point1, point2, selectedMethod)
     println("${selectedMethod.name.replaceFirstChar { it.uppercase() }} Distance: $distance")
@@ -24,14 +17,30 @@ fun main() {
 
 data class Point(val x: Double, val y: Double, val z: Double)
 
-fun readValidPoint(): Point {
-    println("Please enter 3 coordinates separated by spaces (e.g., 1.0 2.0 3.0):")
-    val input = readLine() ?: ""
-    val coordinates = input.split("\\s+".toRegex()).mapNotNull { it.toDoubleOrNull() }
+fun readValidPoint(order: String): Point {
+    while (true) {
+        println("Enter the coordinates of the $order point (x y z):")
+        val input = readLine()
+        if (input != null) {
+            val coordinates = input.split("\\s+".toRegex()).mapNotNull { it.toDoubleOrNull() }
+            if (coordinates.size == 3) {
+                return Point(coordinates[0], coordinates[1], coordinates[2])
+            }
+        }
+        println("Invalid input. Please enter exactly 3 numeric coordinates separated by spaces (e.g., 1.0 2.0 3.0).")
+    }
+}
 
-    require(coordinates.size == 3) { "Invalid input. Please enter only 3 coordinates and make sure they're numbers!" }
-
-    return Point(coordinates[0], coordinates[1], coordinates[2])
+fun readDistanceMethod(): DistanceMethod {
+    while (true) {
+        println("Choose the distance method (euclidean/manhattan):")
+        val input = readLine()?.uppercase()
+        try {
+            return DistanceMethod.valueOf(input ?: "")
+        } catch (e: IllegalArgumentException) {
+            println("Invalid input. Please enter 'euclidean' or 'manhattan'.")
+        }
+    }
 }
 
 // Function to calculate distance based on the selected method

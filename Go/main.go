@@ -1,3 +1,4 @@
+// main.go
 package main
 
 import (
@@ -15,7 +16,6 @@ type Point struct {
 	X, Y, Z float64
 }
 
-// Constants for distance calculation methods
 const (
 	Euclidean = "euclidean"
 	Manhattan = "manhattan"
@@ -27,23 +27,21 @@ func titleCase(s string) string {
 
 func main() {
 	reader := bufio.NewReader(os.Stdin)
-
 	point1 := getPoint(reader, "Enter the coordinates of Point 1 (X Y Z):")
 	point2 := getPoint(reader, "Enter the coordinates of Point 2 (X Y Z):")
-
 	method := getCalculationMethod(reader)
 
 	var distance float64
 	switch method {
 	case Euclidean:
-		distance = euclideanDistance(point1, point2)
+		distance = calculateDistance(point1, point2, euclideanDistance)
 	case Manhattan:
-		distance = manhattanDistance(point1, point2)
+		distance = calculateDistance(point1, point2, manhattanDistance)
 	default:
 		fmt.Println("Invalid method. Please enter 'euclidean' or 'manhattan'.")
 		return
 	}
-	fmt.Printf("%s Distance between Point 1 and Point 2: %f\n", titleCase(method), distance)
+	fmt.Printf("%s Distance between Point 1 and Point 2: %.2f\n", titleCase(method), distance)
 }
 
 func getPoint(reader *bufio.Reader, prompt string) Point {
@@ -75,11 +73,15 @@ func getUserInput(reader *bufio.Reader) string {
 	return strings.TrimSpace(input)
 }
 
+func calculateDistance(p1, p2 Point, distFunc func(Point, Point) float64) float64 {
+	return distFunc(p1, p2)
+}
+
 func euclideanDistance(p1, p2 Point) float64 {
 	dx := p2.X - p1.X
 	dy := p2.Y - p1.Y
 	dz := p2.Z - p1.Z
-	return math.Sqrt(dx*dx + dy*dy + dz*dz)
+	return math.Hypot(dx, math.Hypot(dy, dz))
 }
 
 func manhattanDistance(p1, p2 Point) float64 {

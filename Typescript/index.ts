@@ -1,5 +1,5 @@
 import * as readline from 'readline';
-import { promisify } from 'node:util';
+import { promisify } from 'util';
 
 interface CoordinateLimits {
   X: { min: number; max: number };
@@ -28,19 +28,20 @@ const rl = readline.createInterface({
 const questionAsync = promisify(rl.question).bind(rl);
 
 function parseAndValidateCoordinates(input: string): Coordinates | null {
-  const parts = input.split(' ').map(part => parseFloat(part.trim())) as Coordinates;
+  const parts = input.split(' ').map(Number);
 
   if (parts.length !== 3 || parts.some(isNaN)) {
     return null;
   }
 
-  if (Object.keys(COORDINATE_LIMITS).every((key, index) => {
-    const limitKey = key as keyof CoordinateLimits;
-    const value = parts[index];
-    const limit = COORDINATE_LIMITS[limitKey];
-    return value >= limit.min && value <= limit.max;
-  })) {
-    return parts;
+  const [x, y, z] = parts;
+
+  if (
+    x >= COORDINATE_LIMITS.X.min && x <= COORDINATE_LIMITS.X.max &&
+    y >= COORDINATE_LIMITS.Y.min && y <= COORDINATE_LIMITS.Y.max &&
+    z >= COORDINATE_LIMITS.Z.min && z <= COORDINATE_LIMITS.Z.max
+  ) {
+    return [x, y, z];
   } else {
     return null;
   }
@@ -54,7 +55,7 @@ async function promptCoordinates(promptText: string): Promise<Coordinates> {
     if (coordinates) {
       return coordinates;
     } else {
-      console.error(`Invalid input. Please enter valid numbers.`);
+      console.error(`Invalid input. Please enter valid numbers within the limits: X(${COORDINATE_LIMITS.X.min}, ${COORDINATE_LIMITS.X.max}), Y(${COORDINATE_LIMITS.Y.min}, ${COORDINATE_LIMITS.Y.max}), Z(${COORDINATE_LIMITS.Z.min}, ${COORDINATE_LIMITS.Z.max}).`);
     }
   }
 }
@@ -62,12 +63,12 @@ async function promptCoordinates(promptText: string): Promise<Coordinates> {
 async function promptDistanceMethod(promptText: string): Promise<DistanceMethod> {
   while (true) {
     const input = await questionAsync(promptText);
-    const distanceMethod = input.trim().toLowerCase() as DistanceMethod;
+    const distanceMethod = input.trim().toLowerCase();
 
     if (distanceMethod === DistanceMethod.EUCLIDEAN || distanceMethod === DistanceMethod.MANHATTAN) {
-      return distanceMethod;
+      return distanceMethod as DistanceMethod;
     } else {
-      console.error('Invalid distance method. Please choose "Euclidean" or "Manhattan".');
+      console.error('Invalid distance method. Please choose "euclidean" or "manhattan".');
     }
   }
 }
@@ -78,9 +79,11 @@ function calculateDistance(coords1: Coordinates, coords2: Coordinates, method: D
 
   switch (method) {
     case DistanceMethod.EUCLIDEAN:
-      return Math.round(Math.hypot(x1 - x2, y1 - y2, z1 - z2));
+      return Math.hypot(x1 - x2, y1 - y2, z1 - z2);
     case DistanceMethod.MANHATTAN:
       return Math.abs(x1 - x2) + Math.abs(y1 - y2) + Math.abs(z1 - z2);
+    default:
+      throw new Error('Unknown distance method');
   }
 }
 
@@ -88,12 +91,12 @@ async function main() {
   try {
     const coords1 = await promptCoordinates('Enter the first set of coordinates: ');
     const coords2 = await promptCoordinates('Enter the second set of coordinates: ');
-    const distanceMethod = await promptDistanceMethod('Choose the distance method (Euclidean or Manhattan): ');
+    const distanceMethod = await promptDistanceMethod('Choose the distance method (euclidean or manhattan): ');
 
     const distance = calculateDistance(coords1, coords2, distanceMethod);
-    console.log(`Distance: ${distance}`);
+    console.log(`Distance: ${distance.toFixed(2)}`);
   } catch (error) {
-    console.error(error.message);
+    console.error(`Error: ${error.message}`);
   } finally {
     rl.close();
   }

@@ -12,7 +12,7 @@ def manhattan_distance(point1: Tuple[float, ...], point2: Tuple[float, ...]) -> 
     return sum(abs(a - b) for a, b in zip(point1, point2))
 
 def get_point_input(prompt: str) -> Tuple[float, ...]:
-    """Get a point (x, y, z) as input from the user."""
+    """Getting a point (x, y, z) as input."""
     while True:
         try:
             return tuple(map(float, input(prompt).split()))
@@ -22,7 +22,7 @@ def get_point_input(prompt: str) -> Tuple[float, ...]:
 def distance_function(
     point1: Tuple[float, ...], point2: Tuple[float, ...], method: str
 ) -> float:
-    """Compute the distance between two points based on the specified method."""
+    """Compute the distance between two points."""
     if method == METHODS["euclidean"]:
         return round(math.dist(point1, point2), 2)
     elif method == METHODS["manhattan"]:
@@ -31,7 +31,7 @@ def distance_function(
         raise ValueError(f"Unknown method: {method}")
 
 def get_method_input(prompt: str) -> str:
-    """Prompt the user for a valid distance method."""
+    """Prompt for a valid distance method."""
     while True:
         method = input(prompt).lower()
         if method in METHODS:

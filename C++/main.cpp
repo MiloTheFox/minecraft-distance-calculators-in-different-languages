@@ -70,7 +70,7 @@ DistanceCalculator readMethod()
     }
 
     std::cerr << "Failed to read input.\n";
-    return nullptr; // Will never reach here as std::cin >> method will block.
+    return nullptr;
 }
 
 int main()
